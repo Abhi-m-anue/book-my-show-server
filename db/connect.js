@@ -1,9 +1,7 @@
 const mongoose = require('mongoose')
 
 const connectDB = (url) => {
-  return mongoose.connect(url, {
-    dbName: '06-JOBS-API'
-  })
+  return mongoose.connect(url)
 }
 
 module.exports = connectDB

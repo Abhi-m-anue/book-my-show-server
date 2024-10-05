@@ -22,6 +22,11 @@ const UserSchema = new mongoose.Schema({
         type : String,
         required: [true, 'Please provide password'],
         minlength : 6,  
+    },
+    role : {
+        type : String,
+        enum : ['user','admin'],
+        default : 'user'
     }
 })
 UserSchema.pre('save',async function(next){
@@ -31,7 +36,7 @@ UserSchema.pre('save',async function(next){
 })
 
 UserSchema.methods.createJWT = function (){
-    return jwt.sign({userId : this._id, name: this.name},process.env.JWT_SECRET, {expiresIn : process.env.JWT_LIFETIME})
+    return jwt.sign({userId : this._id, name: this.name, role: this.role},process.env.JWT_SECRET, {expiresIn : process.env.JWT_LIFETIME})
 }
 
 UserSchema.methods.comparePassword = async function (candidatePassword){

@@ -10,10 +10,14 @@ const rateLimit = require('express-rate-limit')
 
 //connectDB
 const connectDB = require('./db/connect')
+
+//middlewares
 const authenticateUser = require('./middleware/authentication')
+const authAdmin = require('./middleware/authAdmin')
 //routers
 const authRouter = require('./routes/auth')
-const jobsRouter = require('./routes/jobs')
+const moviesRouter = require('./routes/movies')
+const adminMoviesRoute = require('./routes/adminMoviesManage')
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
@@ -36,8 +40,13 @@ app.get('/',(req,res)=>{
   res.send('jobs api')
 })
 // routes
+
+// common authentication for users and admin
 app.use('/api/v1/auth',authRouter)
-app.use('/api/v1/jobs',authenticateUser,jobsRouter)
+// route for users
+app.use('/api/v1/movies',authenticateUser,moviesRouter)
+//route for admin
+app.use('/api/v1/admin/movies',authAdmin,adminMoviesRoute)
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
