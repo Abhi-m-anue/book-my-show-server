@@ -22,7 +22,16 @@ const getMovie = async (req, res) => {
 };
 
 const createMovie = async (req, res) => {
-  const movie = await Movie.create(req.body);
+  let { name, price , seats } = req.body
+  let data = {
+    name : name
+  }
+  if(price){
+    data.price = Number(price)
+  }
+  seats = Number(seats)
+  data.seats = Array(seats).fill({status : 'available'})
+  const movie = await Movie.create(data);
   res.status(StatusCodes.CREATED).json({ movie });
 };
 

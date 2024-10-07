@@ -33,7 +33,12 @@ app.use(rateLimit({
   max : 100 // limit each IP to 100 requests per windowMs
 }))
 app.use(helmet())
-app.use(cors())
+// const corsOptions = {
+//   origin: 'http://localhost:5173', // your frontend origin
+//   credentials: true,               // allow cookies and credentials
+//   optionsSuccessStatus: 200        // some browsers require 200 status for successful preflight
+// };
+app.use(cors());
 app.use(xss())
 
 app.get('/',(req,res)=>{
